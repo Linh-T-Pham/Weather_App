@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Axios from 'axios';
 
 
 // const useStyles = makeStyles((theme) => ({
@@ -37,24 +38,36 @@ const api = {
 
 export default function Weather() {
   // const classes = useStyles();
-  const [city, setCity] = useState([]);
   const [cityData, setCityData] = useState({});
+  const [city, setCity] = useState('');
+
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`${api.base}/weather?q=${city}&units=metric&APPID=${api.key}`)
-      const getResult = await res.json();
-      setCityData(getResult);
-      }
-      fetchData();
-    }, []);
+    Axios
+      .get(`${api.base}/weather?q=${city}&units=metric&APPID=${api.key}`)
+      .then(res => {
+        console.log(res)
+        setCityData(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },[city])
+
+
+    // async function fetchData() {
+    //   const res = await fetch(`${api.base}/weather?q=${city}&units=metric&APPID=${api.key}`)
+    //   const getResult = await res.json();
+    //   setCityData(getResult);
+    //   }
+
+    // }, []);
 
 
   const handleClick = (event) => {
     setCity(event.target.value);
   }; 
 
-  
   console.log(cityData)
   return (
   <div>
@@ -66,7 +79,15 @@ export default function Weather() {
       </Select> 
 
     {city}
-   {/* {cityData.weather[0].main} */}
+
+
+    {(typeof cityData.main != 'undefined') ? (
+    <div>
+        <div>{cityData.weather[0].main}</div>
+        <div>{cityData.main.temp}</div>
+    </div>
+    ) : ('') }
+
   </div>
   
   );
