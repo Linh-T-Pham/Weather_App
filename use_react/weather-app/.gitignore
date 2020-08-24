@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+ 
+ key: "5fc2cf4502bdb80a9a86054635dcb41c",
+base: "https://api.openweathermap.org/data/2.5"

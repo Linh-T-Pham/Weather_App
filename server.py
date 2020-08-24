@@ -1,8 +1,8 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-import requests
 import json
+import requests
 from noaa_sdk import noaa
 
 
@@ -23,11 +23,11 @@ def create_homepage():
     latitude = request.args.get('latitude')
     longitude = request.args.get('longitude')
     n = noaa.NOAA()
-    cordinate_api = n.points_forecast(float(latitude), float(longitude), hourly=False)
-    print(cordinate_api)
+    cordinate_api = n.points_forecast(latitude, longitude, hourly=False)
+    # print(cordinate_api)
     # print(cordinate)
     # api_request = requests.get("https://api.weather.gov/points/" + str(latitude) + "," + str(longitude))
-    # cordinate_api = api_request.json()
+    cordinate_api = api_request.json()
     return render_template("cordinate.html", latitude=latitude, longitude=longitude, cordinate_api=cordinate_api)
 
 
